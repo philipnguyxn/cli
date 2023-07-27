@@ -7,23 +7,26 @@ source ./src/CreateSvelteTailwind/main.sh
 source ./src/CreateReactTailwind/main.sh
 
 main() {
+  output_path="./temp/outputs.txt"
+
   tsc
 
-  framework=$(node ./dist/cli_prompt.js)
+  # Run the Node.js script and write the result to output.txt
+  node ./dist/prompt.js
 
-  # read -r -p 'What is the project'\''s name: ' project_name
+  # Read the project, name, and path from outputs.txt
+  project=$(sed '1q;d' "$output_path" | sed 's/^project: //')
+  name=$(sed '2q;d' "$output_path" | sed 's/^name: //')
+  path=$(sed '3q;d' "$output_path" | sed 's/^path: //')
 
-  # read -r -p 'Where do you want to create the project in ' project_name
+  rm -r $output_path
 
-  case $framework in
+  case $project in
   "react")
-    echo "You choose react"
-    # create_react_tailwind
+    create_react_tailwind "$path" "$name"
     ;;
   "svelte")
-    echo "You choose svelte"
-
-    # create_svelte_tailwind
+    create_svelte_tailwind "$path" "$name"
     ;;
   "quit")
     exit 0
