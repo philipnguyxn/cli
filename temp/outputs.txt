@@ -1,0 +1,3 @@
+project: svelte
+name: wrw
+path: ..

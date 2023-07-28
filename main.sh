@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# shellcheck source=./src/CreateSvelteTailwind/main.sh disable=SC1091
-source ./src/CreateSvelteTailwind/main.sh
+# shellcheck source=./src/create_svelte/main.sh disable=SC1091
+source ./src/create_svelte/main.sh
 
-# shellcheck source=./src/CreateSvelteTailwind/main.sh disable=SC1091
-source ./src/CreateReactTailwind/main.sh
+# shellcheck source=./src/create_react/main.sh disable=SC1091
+source ./src/create_react/main.sh
 
 main() {
   output_path="./temp/outputs.txt"
@@ -19,14 +19,12 @@ main() {
   name=$(sed '2q;d' "$output_path" | sed 's/^name: //')
   path=$(sed '3q;d' "$output_path" | sed 's/^path: //')
 
-  rm -r $output_path
-
   case $project in
   "react")
     create_react_tailwind "$path" "$name"
     ;;
   "svelte")
-    create_svelte_tailwind "$path" "$name"
+    create_svelte_project "$path" "$name"
     ;;
   "quit")
     exit 0
