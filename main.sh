@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# shellcheck source=./src/create_svelte/main.sh disable=SC1091
-source ./src/create_svelte/main.sh
+# shellcheck source=./src/projects/react.sh disable=SC1091
+source ./src/projects/react.sh
 
-# shellcheck source=./src/create_react/main.sh disable=SC1091
-source ./src/create_react/main.sh
+# shellcheck source=./src/projects/svelte.sh disable=SC1091
+source ./src/projects/svelte.sh
 
 main() {
   output_path="./temp/outputs.txt"

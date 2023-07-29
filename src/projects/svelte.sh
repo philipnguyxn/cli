@@ -33,17 +33,6 @@ configure_eslint() {
   }
 }
 EOF
-
-  eslintignore_config="
-    node_modules
-    dist
-    "
-
-  touch .eslintignore
-
-  echo -e "$eslintignore_config" || cat >.eslintignore
-
-  node "$original_dir"/dist/configure_package.js
 }
 original_dir=$1
 
@@ -51,6 +40,19 @@ configure_prettier() {
   original_dir=$1
 
   npm i -D prettier prettier-plugin-tailwindcss @trivago/prettier-plugin-sort-imports prettier-plugin-svelte
+
+  cat <<EOF >./.prettierrc.json
+{
+  "tabWidth": 2,
+  "semi": false,
+  "singleQuote": true,
+  "trailingComma": "es5",
+  "plugins": ["prettier-plugin-svelte", "@trivago/prettier-plugin-sort-imports", "prettier-plugin-tailwindcss"],
+  "svelteSortOrder": "options-scripts-markup-styles",
+  "svelteBracketNewLine": true,
+  "svelteIndentScriptAndStyle": true,
+}
+EOF
 }
 
 create_svelte_project() {
@@ -70,6 +72,8 @@ create_svelte_project() {
   configure_eslint "$original_dir"
 
   configure_prettier "$original_dir"
+
+  node "$original_dir"/dist/configure_package.js
 
   # code .
 

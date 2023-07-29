@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'path'
+import appRoot from 'app-root-path'
 
 // Read the data from outputs.txt
 const outputsData = fs.readFileSync('../temp/outputs.txt', {
@@ -24,14 +25,19 @@ for (const line of lines) {
 
 // Load the JSON data from the absolute path to the project's package.json
 const data = JSON.parse(
-  fs.readFileSync(path.resolve(`${projectPath}/${projectName}/package.json`), {
-    encoding: 'utf8',
-    flag: 'r',
-  })
+  fs.readFileSync(
+    path.join(appRoot.path, `${projectPath}/${projectName}/package.json`),
+    {
+      encoding: 'utf8',
+      flag: 'r',
+    }
+  )
 )
 
 // Modify the data
-data.scripts.lint = 'eslint --ignore-path .eslintignore --ext .js,.ts,.svelte .'
+data.scripts.lint = 'eslint --ignore-path .gitignore --ext .js,.ts,.svelte .'
+data.scripts.format =
+  'prettier --ignore-path .gitignore --ext .js,.ts,.svelte .'
 
 // Write the data back to the file
-fs.writeFileSync('package.json', JSON.stringify(data, null, 4))
+fs.writeFileSync('package.json', JSON.stringify(data, null, 2))
